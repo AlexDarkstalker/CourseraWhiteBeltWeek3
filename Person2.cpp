@@ -1,13 +1,17 @@
 //
 // Created by aiger on 30.04.2020.
 //
+
+//
+// Created by aiger on 30.04.2020.
+//
 #include <iostream>
 #include <string>
 #include <map>
 #include <vector>
 using namespace std;
 
-class Person1 {
+class Person {
 public:
     void ChangeFirstName(int year, const string& first_name) {
         // добавить факт изменения имени на first_name в год year
@@ -30,9 +34,29 @@ public:
             return first_names_history[first_name_year] + " with unknown last name";
         else
             return first_names_history[first_name_year] + " " + second_names_history[second_name_year];
-
+    }
+    string GetFullNameWithHistory(int year) {
+        vector<string> first_name_history = GetNamesHistory(first_names_history, year);
+        vector<string> last_name_history = GetNamesHistory(second_names_history, year);
+        
     }
 private:
+    vector<string> GetNamesHistory(map<int, string>& map, int check_year ) {
+        vector<string> history;
+        int count = 0;
+        for (const auto& year: map) {
+            if (check_year >= year.first){
+                if (count != map.size() - 1) {
+                    history.push_back(year.second);
+                } else
+                    return history;
+            } else
+                return history;
+            ++count;
+        }
+        return history;
+    }
+
     int GetLastYear(const map<int, string>& map, int check_year) {
         int last_year = map.begin()->first;
         int count = 0, prev_year = map.begin()->first;
@@ -57,7 +81,7 @@ private:
     map<int, string> second_names_history;
 };
 
-int main4() {
+int main() {
     Person person;
 
     person.ChangeFirstName(1965, "Polina");
